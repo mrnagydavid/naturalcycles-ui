@@ -1,9 +1,11 @@
 import { auth } from '../auth.js'
 
+const BASE_URL = 'https://mrnagydavid-nc-api-e8639114c055.herokuapp.com'
+
 export async function get(url) {
   const token = await getToken()
 
-  const response = await fetch(url, {
+  const response = await fetch(`${BASE_URL}${url}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -17,7 +19,7 @@ export async function get(url) {
 export async function put(url, body) {
   const token = await getToken()
 
-  const response = await fetch(url, {
+  const response = await fetch(`${BASE_URL}${url}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
