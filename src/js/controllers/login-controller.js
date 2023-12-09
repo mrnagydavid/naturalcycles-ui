@@ -60,6 +60,8 @@ export default class extends Controller {
   }
 
   showLoginForm() {
+    this.hideSMSCodeInput()
+    this.showLoginInput()
     this.element.classList.remove('hidden')
   }
 
