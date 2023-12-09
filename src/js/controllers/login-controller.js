@@ -34,25 +34,25 @@ export default class extends Controller {
   }
 
   async verify() {
-    try {
-      const code = this.smsCodeInputTarget.value
-      if (!code || code.length !== 6) {
-        alert('Please enter the verification code.')
-        return
-      }
-
-      this.disableVerifyButton()
-      this.disableSMSCodeInput()
-
-      const verified = await verifySMSCode(this.smsCodeInputTarget.value)
-      if (verified) {
-        this.hideSMSCodeInput()
-        this.showLoginInput()
-      }
-    } finally {
-      this.enableVerifyButton()
-      this.enablePhoneInput()
+    const code = this.smsCodeInputTarget.value
+    if (!code || code.length !== 6) {
+      alert('Please enter the verification code.')
+      return
     }
+
+    this.disableVerifyButton()
+    this.disableSMSCodeInput()
+
+    const verified = await verifySMSCode(this.smsCodeInputTarget.value)
+    if (!verified) {
+      this.enableVerifyButton()
+      this.enableSMSCodeInput()
+      this.smsCodeInputTarget.focus()
+      return
+    }
+
+    this.hideSMSCodeInput()
+    this.showLoginInput()
   }
 
   hideLoginForm() {
