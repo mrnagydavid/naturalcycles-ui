@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'dark-plum': '#560246',
+              'royal-plum': '#590249'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html {
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bg-dark-plum flex h-12 items-center justify-between px-10">
+      <span class="font-bold text-white">JustNameIt</span>
+      <button
+        data-controller="logout"
+        data-logout-target="logoutButton"
+        data-action="logout#logout"
+        class="button bg-dark-plum hover:bg-royal-plum invisible flex h-8 cursor-pointer items-center justify-center rounded-md border border-white p-2 text-white"
+      >
+        Log out
+      </button>
+    </header>
+
+    <div data-controller="login" class="flex h-screen items-center justify-center">
+      <div class="relative flex flex-col justify-center">
+        <input
+          data-login-target="phoneInput"
+          type="text"
+          placeholder="+4645444342"
+          class="text-dark-plum border-dark-plum rounded-sm border bg-white p-2 text-base"
+        />
+        <button
+          data-login-target="loginButton"
+          data-action="login#login"
+          class="button bg-dark-plum hover:bg-royal-plum disabled:border-dark-plum disabled:text-dark-plum cursor-pointer rounded-md border p-2 text-white disabled:bg-white"
+        >
+          Log in
+        </button>
+        <input
+          data-login-target="smsCodeInput"
+          type="text"
+          placeholder="000000"
+          class="text-dark-plum border-dark-plum hidden rounded-sm border bg-white p-1 text-center text-lg tracking-widest"
+        />
+        <button
+          data-login-target="verifyButton"
+          data-action="login#verify"
+          class="button bg-dark-plum hover:bg-royal-plum disabled:border-dark-plum disabled:text-dark-plum hidden cursor-pointer rounded-md border p-2 text-white disabled:bg-white"
+        >
+          Verify code
+        </button>
+        <div
+          id="recaptcha-container"
+          data-login-target="recaptcha"
+          class="flex h-20 w-80 items-center justify-center"
+        ></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import LoginController from './js/controllers/login-controller.js'
+      import LogoutController from './js/controllers/logout-controller.js'
+
+      Stimulus.register('login', LoginController)
+      Stimulus.register('logout', LogoutController)
+    </script>
+  </body>
+</html>
