@@ -4,7 +4,6 @@ let started = false
 
 if (!started) {
   window.Stimulus = Application.start()
-  console.debug('Stimulus started.')
   started = true
 }
 

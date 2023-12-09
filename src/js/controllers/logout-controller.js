@@ -5,13 +5,11 @@ export default class extends Controller {
   static targets = ['logoutButton']
 
   connect() {
-    console.debug('Logout controller connected.')
     onLoggedIn(() => this.onLoggedIn())
     onLoggedOut(() => this.onLoggedOut())
   }
 
   async logout() {
-    console.debug('Logout button clicked.')
     logout()
   }
 

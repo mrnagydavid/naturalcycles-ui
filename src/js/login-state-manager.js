@@ -9,10 +9,8 @@ const callbacksForLoggedOut = []
 if (!loaded) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.debug('[LoginStateManager] User logged in.')
       handleLoggedIn(user)
     } else {
-      console.debug('[LoginStateManager] User logged out.')
       handleLoggedOut()
     }
   })
@@ -28,7 +26,6 @@ async function login(phoneNumber) {
   window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {})
   window.recaptchaVerifier.render()
   const _token = await window.recaptchaVerifier.verify()
-  console.debug('[LoginStateManager] Captcha verified.')
 
   const confirmationResult = await signInWithPhoneNumber(
     auth,
@@ -36,14 +33,12 @@ async function login(phoneNumber) {
     window.recaptchaVerifier
   )
 
-  console.debug('[LoginStateManager] Confirmation result received.')
   window.confirmationResult = confirmationResult
 }
 
 async function verifySMSCode(code) {
   try {
     await window.confirmationResult.confirm(code)
-    console.debug('[LoginStateManager] Credential received.')
     cleanUpRecaptchaItems()
     return true
   } catch (error) {
@@ -85,13 +80,10 @@ function onLoggedOut(callback) {
 }
 
 function handleLoggedIn(user) {
-  console.debug('[LoginStateManager] handleLoggedIn')
-  console.debug(user.uid)
   callbacksForLoggedIn.forEach((callback) => callback(user))
 }
 
 function handleLoggedOut() {
-  console.debug('[LoginStateManager] handleLoggedOut')
   callbacksForLoggedOut.forEach((callback) => callback())
 }
 

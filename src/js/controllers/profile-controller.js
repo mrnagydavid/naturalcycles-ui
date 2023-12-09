@@ -16,7 +16,6 @@ export default class extends Controller {
   notificationDisplayDuration = 5000
 
   connect() {
-    console.debug('[ProfileController] Profile controller connected.')
     onLoggedIn(() => this.onLoggedIn())
     onLoggedOut(() => this.onLoggedOut())
   }

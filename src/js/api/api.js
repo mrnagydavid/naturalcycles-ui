@@ -33,6 +33,5 @@ export async function put(url, body) {
 
 async function getToken() {
   const token = await auth.currentUser.getIdToken()
-  console.log(token)
   return token
 }

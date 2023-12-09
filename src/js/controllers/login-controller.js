@@ -5,16 +5,12 @@ export default class extends Controller {
   static targets = ['phoneInput', 'smsCodeInput', 'loginButton', 'verifyButton', 'recaptcha']
 
   connect() {
-    console.debug('[LoginController] Login controller connected.')
     onLoggedIn(() => this.onLoggedIn())
     onLoggedOut(() => this.onLoggedOut())
   }
 
   async login() {
     try {
-      console.debug('[LoginController] Login button clicked.')
-      console.debug(this.phoneInputTarget.value)
-
       const phoneNumber = this.phoneInputTarget.value
       const isValid = /^\+[1-9]\d{1,14}$/.test(phoneNumber)
 
@@ -39,9 +35,6 @@ export default class extends Controller {
 
   async verify() {
     try {
-      console.debug('[LoginController] Verify button clicked.')
-      console.debug(this.smsCodeInputTarget.value)
-
       const code = this.smsCodeInputTarget.value
       if (!code || code.length !== 6) {
         alert('Please enter the verification code.')
