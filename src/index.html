@@ -38,9 +38,10 @@
       <div class="relative flex flex-col justify-center">
         <input
           data-login-target="phoneInput"
+          data-action="keydown.enter->login#login"
           type="text"
           placeholder="+4645444342"
-          class="text-dark-plum border-dark-plum rounded-sm border bg-white p-2 text-base"
+          class="text-dark-plum border-dark-plum disabled:text-grey-700 rounded-sm border bg-white p-2 text-base"
         />
         <button
           data-login-target="loginButton"
@@ -51,9 +52,10 @@
         </button>
         <input
           data-login-target="smsCodeInput"
+          data-action="keydown.enter->login#verify"
           type="text"
           placeholder="000000"
-          class="text-dark-plum border-dark-plum hidden rounded-sm border bg-white p-1 text-center text-lg tracking-widest"
+          class="text-dark-plum border-dark-plum disabled:text-grey-700 hidden rounded-sm border bg-white p-1 text-center text-lg tracking-widest"
         />
         <button
           data-login-target="verifyButton"

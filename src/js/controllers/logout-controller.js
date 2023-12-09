@@ -12,7 +12,7 @@ export default class extends Controller {
 
   async logout() {
     console.debug('Logout button clicked.')
-    await logout()
+    logout()
   }
 
   showLogoutButton() {
