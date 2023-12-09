@@ -40,6 +40,7 @@
           data-login-target="phoneInput"
           data-action="keydown.enter->login#login"
           type="text"
+          name="phone"
           placeholder="+4645444342"
           class="text-dark-plum border-dark-plum disabled:text-grey-700 rounded-sm border bg-white p-2 text-base"
         />
@@ -54,6 +55,7 @@
           data-login-target="smsCodeInput"
           data-action="keydown.enter->login#verify"
           type="text"
+          name="code"
           placeholder="000000"
           class="text-dark-plum border-dark-plum disabled:text-grey-700 hidden rounded-sm border bg-white p-1 text-center text-lg tracking-widest"
         />
@@ -72,12 +74,59 @@
       </div>
     </div>
 
+    <div data-controller="profile" class="flex hidden h-screen items-center justify-center">
+      <div class="relative flex w-80 flex-col justify-center">
+        <p
+          data-profile-target="progressIndicatorLabel"
+          class="mb-2 hidden animate-pulse text-xs font-bold text-blue-500"
+        >
+          Hang tight! Fetching the juiciest details for you... <span class="text-base">🚀</span>
+        </p>
+        <p
+          data-profile-target="successMessageLabel"
+          class="text-dark-plum absolute -top-10 mb-2 hidden animate-bounce text-xs font-bold"
+        >
+          Ta-da! The elves have successfully saved your proposed changes!
+          <span class="text-base">✨</span>
+        </p>
+        <input
+          data-profile-target="nameInput"
+          data-action="keydown.enter->profile#updateProfileInfo"
+          type="text"
+          name="name"
+          placeholder="Your name"
+          class="text-dark-plum border-dark-plum disabled:text-grey-700 rounded-sm border bg-white p-2 text-base"
+        />
+        <p data-profile-target="nameInputErrorLabel" class="mb-2 hidden text-xs text-red-500"></p>
+
+        <input
+          data-profile-target="emailInput"
+          data-action="keydown.enter->profile#updateProfileInfo"
+          type="text"
+          name="email"
+          placeholder="Your email address"
+          class="text-dark-plum border-dark-plum disabled:text-grey-700 rounded-sm border bg-white p-2 text-base"
+        />
+        <p data-profile-target="emailInputErrorLabel" class="mb-2 hidden text-xs text-red-500"></p>
+
+        <button
+          data-profile-target="saveButton"
+          data-action="profile#updateProfileInfo"
+          class="button bg-dark-plum hover:bg-royal-plum disabled:border-dark-plum disabled:text-dark-plum cursor-pointer rounded-md border p-2 text-white disabled:bg-white"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+
     <script type="module">
       import LoginController from './js/controllers/login-controller.js'
       import LogoutController from './js/controllers/logout-controller.js'
+      import ProfileController from './js/controllers/profile-controller.js'
 
       Stimulus.register('login', LoginController)
       Stimulus.register('logout', LogoutController)
+      Stimulus.register('profile', ProfileController)
     </script>
   </body>
 </html>
