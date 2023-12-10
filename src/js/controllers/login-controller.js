@@ -2,7 +2,15 @@ import { Controller } from '../stimulus.js'
 import { onLoggedIn, onLoggedOut, login, verifySMSCode } from '../login-state-manager.js'
 
 export default class extends Controller {
-  static targets = ['phoneInput', 'smsCodeInput', 'loginButton', 'verifyButton', 'recaptcha']
+  static targets = [
+    'phoneInput',
+    'smsCodeInput',
+    'loginButton',
+    'verifyButton',
+    'recaptcha',
+    'phoneInputErrorLabel',
+    'smsCodeInputErrorLabel'
+  ]
 
   connect() {
     onLoggedIn(() => this.onLoggedIn())
@@ -11,11 +19,12 @@ export default class extends Controller {
 
   async login() {
     try {
+      this.setErrorForField('phone', '')
       const phoneNumber = this.phoneInputTarget.value
       const isValid = /^\+[1-9]\d{1,14}$/.test(phoneNumber)
 
       if (!phoneNumber || !isValid) {
-        alert('Please enter your phone number.')
+        this.setErrorForField('phone', 'Please enter a valid phone number.')
         this.phoneInputTarget.focus()
         this.phoneInputTarget.select()
         return
@@ -34,9 +43,10 @@ export default class extends Controller {
   }
 
   async verify() {
+    this.setErrorForField('smsCode', '')
     const code = this.smsCodeInputTarget.value
     if (!code || code.length !== 6) {
-      alert('Please enter the verification code.')
+      this.setErrorForField('smsCode', 'Please enter the verification code.')
       return
     }
 
@@ -47,12 +57,26 @@ export default class extends Controller {
     if (!verified) {
       this.enableVerifyButton()
       this.enableSMSCodeInput()
-      this.smsCodeInputTarget.focus()
+      this.setErrorForField('smsCode', 'Incorrect verification code.')
       return
     }
 
     this.hideSMSCodeInput()
     this.showLoginInput()
+    this.enableVerifyButton()
+    this.enableSMSCodeInput()
+  }
+
+  setErrorForField(fieldName, error) {
+    if (!error) {
+      this[fieldName + 'InputErrorLabelTarget'].innerText = ''
+      this[fieldName + 'InputErrorLabelTarget'].classList.add('hidden')
+      return
+    }
+
+    this[fieldName + 'InputErrorLabelTarget'].innerText = error
+    this[fieldName + 'InputErrorLabelTarget'].classList.remove('hidden')
+    this[fieldName + 'InputTarget'].focus()
   }
 
   hideLoginForm() {

@@ -44,6 +44,7 @@
           placeholder="+4645444342"
           class="text-dark-plum border-dark-plum disabled:text-grey-700 rounded-sm border bg-white p-2 text-base"
         />
+        <p data-login-target="phoneInputErrorLabel" class="mb-2 hidden text-xs text-red-500"></p>
         <button
           data-login-target="loginButton"
           data-action="login#login"
@@ -59,6 +60,7 @@
           placeholder="000000"
           class="text-dark-plum border-dark-plum disabled:text-grey-700 hidden rounded-sm border bg-white p-1 text-center text-lg tracking-widest"
         />
+        <p data-login-target="smsCodeInputErrorLabel" class="mb-2 hidden text-xs text-red-500"></p>
         <button
           data-login-target="verifyButton"
           data-action="login#verify"
