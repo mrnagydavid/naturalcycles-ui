@@ -34,7 +34,19 @@
       </button>
     </header>
 
-    <div data-controller="login" class="flex h-[calc(100vh-4rem)] items-center justify-center">
+    <div data-controller="pre-login" class="flex h-[calc(100vh-4rem)] items-center justify-center">
+      <p
+        data-pre-login-target="progressIndicatorLabel"
+        class="mb-2 animate-pulse text-xs font-bold"
+      >
+        Hang tight! Checking the login status... <span class="text-base">🕵️</span>
+      </p>
+    </div>
+
+    <div
+      data-controller="login"
+      class="flex hidden h-[calc(100vh-4rem)] items-center justify-center"
+    >
       <div class="relative flex flex-col justify-center">
         <input
           data-login-target="phoneInput"
@@ -125,10 +137,12 @@
     </div>
 
     <script type="module">
+      import PreLoginController from './js/controllers/pre-login-controller.js'
       import LoginController from './js/controllers/login-controller.js'
       import LogoutController from './js/controllers/logout-controller.js'
       import ProfileController from './js/controllers/profile-controller.js'
 
+      Stimulus.register('pre-login', PreLoginController)
       Stimulus.register('login', LoginController)
       Stimulus.register('logout', LogoutController)
       Stimulus.register('profile', ProfileController)

@@ -3,6 +3,7 @@ import { auth, onAuthStateChanged, signInWithPhoneNumber, RecaptchaVerifier } fr
 export { onLoggedIn, onLoggedOut, login, logout, verifySMSCode }
 
 let loaded = false
+let authStateDetermined = false
 const callbacksForLoggedIn = []
 const callbacksForLoggedOut = []
 
@@ -13,6 +14,7 @@ if (!loaded) {
     } else {
       handleLoggedOut()
     }
+    authStateDetermined = true
   })
 
   loaded = true
@@ -58,11 +60,11 @@ function logout() {
 }
 
 function isLoggedIn() {
-  return auth.currentUser !== null
+  return authStateDetermined && auth.currentUser !== null
 }
 
 function isLoggedOut() {
-  return !isLoggedIn()
+  return authStateDetermined && !isLoggedIn()
 }
 
 function onLoggedIn(callback) {
