@@ -21,7 +21,7 @@
       }
     </style>
   </head>
-  <body>
+  <body class="min-h-screen">
     <header class="bg-dark-plum flex h-12 items-center justify-between px-10">
       <span class="font-bold text-white">JustNameIt</span>
       <button
@@ -34,7 +34,7 @@
       </button>
     </header>
 
-    <div data-controller="login" class="flex h-screen items-center justify-center">
+    <div data-controller="login" class="flex h-[calc(100vh-4rem)] items-center justify-center">
       <div class="relative flex flex-col justify-center">
         <input
           data-login-target="phoneInput"
@@ -76,7 +76,10 @@
       </div>
     </div>
 
-    <div data-controller="profile" class="flex hidden h-screen items-center justify-center">
+    <div
+      data-controller="profile"
+      class="flex hidden h-[calc(100vh-4rem)] items-center justify-center"
+    >
       <div class="relative flex w-80 flex-col justify-center">
         <p
           data-profile-target="progressIndicatorLabel"
