@@ -31,6 +31,7 @@ export default class extends Controller {
         return
       }
 
+      this.showRecaptcha()
       this.disableLoginButton()
       this.disablePhoneInput()
 
@@ -48,6 +49,7 @@ export default class extends Controller {
       this.enablePhoneInput()
       this.focusPhoneInput()
     } finally {
+      this.hideRecaptcha()
       this.enablePhoneInput()
       this.enableLoginButton()
     }
@@ -103,14 +105,14 @@ export default class extends Controller {
   hideLoginInput() {
     this.phoneInputTarget.classList.add('hidden')
     this.loginButtonTarget.classList.add('hidden')
-    this.recaptchaTarget.classList.add('invisible')
+    this.hideRecaptcha()
   }
 
   showLoginInput() {
     this.phoneInputTarget.classList.remove('hidden')
     this.loginButtonTarget.classList.remove('hidden')
-    this.recaptchaTarget.classList.remove('invisible')
-    this.phoneInputTarget.focus()
+    this.hideRecaptcha()
+    this.focusPhoneInput()
   }
 
   showSMSCodeInput() {
@@ -122,6 +124,14 @@ export default class extends Controller {
   hideSMSCodeInput() {
     this.smsCodeInputTarget.classList.add('hidden')
     this.verifyButtonTarget.classList.add('hidden')
+  }
+
+  showRecaptcha() {
+    this.recaptchaTarget.classList.remove('invisible')
+  }
+
+  hideRecaptcha() {
+    this.recaptchaTarget.classList.add('invisible')
   }
 
   disablePhoneInput() {
