@@ -1,5 +1,6 @@
 import { Controller } from '../stimulus.js'
 import { onLoggedIn, onLoggedOut, login, verifySMSCode } from '../login-state-manager.js'
+import { InternalError } from '../errors.js'
 
 export default class extends Controller {
   static targets = [
@@ -20,22 +21,32 @@ export default class extends Controller {
   async login() {
     try {
       this.setErrorForField('phone', '')
-      const phoneNumber = this.phoneInputTarget.value
+      const phoneNumber = this.getPhoneNumber()
       const isValid = /^\+[1-9]\d{1,14}$/.test(phoneNumber)
 
       if (!phoneNumber || !isValid) {
         this.setErrorForField('phone', 'Please enter a valid phone number.')
-        this.phoneInputTarget.focus()
-        this.phoneInputTarget.select()
+        this.focusPhoneInput()
+        this.selectPhoneInput()
         return
       }
 
       this.disableLoginButton()
       this.disablePhoneInput()
 
-      await login(this.phoneInputTarget.value)
+      await login(phoneNumber)
+
       this.showSMSCodeInput()
       this.hideLoginInput()
+    } catch (error) {
+      if (error instanceof Error) {
+        this.setErrorForField('phone', error.message)
+      } else if (error instanceof InternalError) {
+        this.setErrorForField('phone', 'An unknown error occurred. Please, retry later. 🙈')
+      }
+
+      this.enablePhoneInput()
+      this.focusPhoneInput()
     } finally {
       this.enablePhoneInput()
       this.enableLoginButton()
@@ -44,7 +55,7 @@ export default class extends Controller {
 
   async verify() {
     this.setErrorForField('smsCode', '')
-    const code = this.smsCodeInputTarget.value
+    const code = this.getSMSCode()
     if (!code || code.length !== 6) {
       this.setErrorForField('smsCode', 'Please enter the verification code.')
       return
@@ -53,7 +64,7 @@ export default class extends Controller {
     this.disableVerifyButton()
     this.disableSMSCodeInput()
 
-    const verified = await verifySMSCode(this.smsCodeInputTarget.value)
+    const verified = await verifySMSCode(code)
     if (!verified) {
       this.enableVerifyButton()
       this.enableSMSCodeInput()
@@ -121,6 +132,18 @@ export default class extends Controller {
     this.phoneInputTarget.disabled = false
   }
 
+  focusPhoneInput() {
+    this.phoneInputTarget.focus()
+  }
+
+  selectPhoneInput() {
+    this.phoneInputTarget.select()
+  }
+
+  getPhoneNumber() {
+    return this.phoneInputTarget.value
+  }
+
   disableLoginButton() {
     this.loginButtonTarget.disabled = true
   }
@@ -143,6 +166,10 @@ export default class extends Controller {
 
   enableVerifyButton() {
     this.verifyButtonTarget.disabled = false
+  }
+
+  getSMSCode() {
+    return this.smsCodeInputTarget.value
   }
 
   onLoggedIn() {
